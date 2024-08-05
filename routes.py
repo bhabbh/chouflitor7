@@ -9,7 +9,7 @@ from sqlalchemy import func
 from geoalchemy2.functions import ST_DWithin
 from geoalchemy2.elements import WKTElement
 
-GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
+GOOGLE_MAPS_API_KEY = app.config.get("GOOGLE_MAPS_API_KEY")
 
 
 @app.route("/")

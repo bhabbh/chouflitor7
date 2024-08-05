@@ -61,9 +61,7 @@ app.add_url_rule("/signup", "auth.signup", signup, methods=["GET", "POST"])
 
 @app.route("/check-api-key")
 def check_api_key():
-    api_key = app.config.get("GOOGLE_MAPS_API_KEY") or os.environ.get(
-        "GOOGLE_MAPS_API_KEY"
-    )
+    api_key = app.config.get("GOOGLE_MAPS_API_KEY")
     return f"API Key: {api_key[:5]}...{api_key[-5:]}" if api_key else "API Key not set"
 
 

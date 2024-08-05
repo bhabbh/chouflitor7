@@ -2,10 +2,12 @@ import os
 
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///chouflitor7.db'
+    SECRET_KEY = os.environ.get("SECRET_KEY") or "you-will-never-guess"
+    SQLALCHEMY_DATABASE_URI = (
+        os.environ.get("DATABASE_URL") or "sqlite:///chouflitor7.db"
+    )
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    GOOGLE_MAPS_API_KEY = os.environ.get('GOOGLE_MAPS_API_KEY')
+    GOOGLE_MAPS_API_KEY = os.environ.get("GOOGLE_MAPS_API_KEY")
 
     @staticmethod
     def init_app(app):

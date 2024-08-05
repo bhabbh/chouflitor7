@@ -1,7 +1,3 @@
-import os
-
-os.environ['GOOGLE_MAPS_API_KEY'] = 'AIzaSyB0eBlupelDc_Wg4CHohhYv5id9fqlw9lQ'
-
 
 def setup_database():
     from app import app, db
@@ -12,6 +8,7 @@ def setup_database():
 
 def reset_database():
     from app import app, db
+
     with app.app_context():
         db.drop_all()
         db.create_all()
