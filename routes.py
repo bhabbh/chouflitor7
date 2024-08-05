@@ -1,3 +1,4 @@
+# routes.py
 import requests
 
 from flask import render_template, request, redirect, url_for, flash, abort
@@ -39,29 +40,33 @@ def geocode_address(address):
 
 @app.route("/create_match", methods=["GET", "POST"])
 def create_match():
-    if request.method == 'POST':
+    if request.method == "POST":
         new_match = Match(
-            players_present=int(request.form['players_present']),
-            level_present=request.form['level_present'],
-            level_required=request.form['level_required'],
-            pitch_address=request.form['pitch_address'],
-            date_time=datetime.strptime(request.form['date_time'], '%Y-%m-%dT%H:%M'),
-            rental_price=float(request.form['rental_price']),
-            description=request.form['description']
+            players_present=int(request.form["players_present"]),
+            level_present=request.form["level_present"],
+            level_required=request.form["level_required"],
+            pitch_address=request.form["pitch_address"],
+            date_time=datetime.strptime(request.form["date_time"], "%Y-%m-%dT%H:%M"),
+            rental_price=float(request.form["rental_price"]),
+            description=request.form["description"],
         )
         db.session.add(new_match)
         db.session.commit()
-        flash('New match created successfully!', 'success')
-        return redirect(url_for('available_matches'))
-    return render_template('create_match.html')
+        flash("New match created successfully!", "success")
+        return redirect(url_for("available_matches"))
+    return render_template("create_match.html")
 
 
-@app.route("/join_match/<int:match_id>", methods=["POST"])
+@app.route("/join_match/<int:match_id>", methods=["GET", "POST"])
 def join_match(match_id):
     match = Match.query.get_or_404(match_id)
-    if match.is_full:
-        flash("This match is already full!", "error")
-    else:
+    if request.method == "GET":
+        # Render a form for the user to join the match.
+        return render_template("join_match.html", match=match)
+    elif request.method == "POST":
+        if match.is_full:
+            flash("This match is already full!", "error")
+            return redirect(url_for("available_matches"))
         try:
             new_player = User(
                 name=request.form["player_name"],
@@ -70,14 +75,14 @@ def join_match(match_id):
             )
             db.session.add(new_player)
             match.players_present += 1
-            if match.players_present == 4:
+            if match.players_present == 4:  # Assuming 4 is the full capacity
                 match.is_full = True
             db.session.commit()
             flash("You have successfully joined the match!", "success")
         except Exception as e:
             db.session.rollback()
             flash(f"Error joining match: {str(e)}", "error")
-    return redirect(url_for("available_matches"))
+        return redirect(url_for("available_matches"))
 
 
 @app.route("/search_matches", methods=["GET", "POST"])

@@ -10,11 +10,11 @@
     {% for match in matches %}
         <li class="match-item">
             <p><strong>Addresse:</strong> {{ match.pitch_address }}</p>
-            <p><strong>Date & Heure:</strong> {{ match.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p><strong>Date & Heure:</strong> {{ match.date_time.strftime('%d-%m-%Y %H:%M') }}</p>
             <p><strong>Joueurs:</strong> {{ match.players_present }} / 4</p>
             <p><strong>Niveau des joueurs:</strong> {{ match.level_present }}</p>
             <p><strong>Niveau requis:</strong> {{ match.level_required }}</p>
-            <p><strong>Prix par joueur:</strong> ${{ match.rental_price }}</p>
+            <p><strong>Prix par joueur:</strong> {{ match.rental_price }} TND</p>
             <p><strong>Description:</strong> {{ match.description }}</p>
             <a href="{{ url_for('join_match', match_id=match.id) }}" class="btn">Join Match</a>
         </li>

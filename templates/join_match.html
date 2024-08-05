@@ -1,0 +1,20 @@
+<!-- join_match.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Participer au match</h2>
+<form action="{{ url_for('join_match', match_id=match.id) }}" method="post">
+  <label for="player_name">Nom du joueur:</label>
+  <input type="text" id="player_name" name="player_name" required>
+  
+  <label for="player_level">Niveau:</label>
+  <select id="player_level" name="player_level" required>
+    <option value="beginner">Débutant</option>
+    <option value="intermediate">Intermédiaire</option>
+    <option value="confirmed">Confirmé</option>
+    <option value="expert">Expert</option>
+  </select>
+  
+  <button type="submit">Rejoindre</button>
+</form>
+{% endblock %}
