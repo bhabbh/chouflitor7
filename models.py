@@ -6,7 +6,6 @@ class Match(db.Model):
     players_present = db.Column(db.Integer, nullable=False)
     level_present = db.Column(db.String(50), nullable=False)
     level_required = db.Column(db.String(50), nullable=False)
-    pitch_name = db.Column(db.String(100), nullable=False)
     pitch_address = db.Column(db.String(200), nullable=False)
     date_time = db.Column(db.DateTime, nullable=False)
     rental_price = db.Column(db.Float, nullable=False)
@@ -14,7 +13,7 @@ class Match(db.Model):
     description = db.Column(db.Text)
 
     def __repr__(self):
-        return f"<Match {self.id}: {self.pitch_name} on {self.date_time}>"
+        return f"<Match {self.id}: {self.pitch_address} on {self.date_time}>"
 
 
 class User(db.Model):

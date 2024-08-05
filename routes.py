@@ -46,7 +46,6 @@ def create_match():
             players_present=int(request.form['players_present']),
             level_present=request.form['level_present'],
             level_required=request.form['level_required'],
-            pitch_name=request.form['pitch_name'],
             pitch_address=request.form['pitch_address'],
             date_time=datetime.strptime(request.form['date_time'], '%Y-%m-%dT%H:%M'),
             rental_price=float(request.form['rental_price']),
@@ -123,7 +122,6 @@ def edit_match(match_id):
     if request.method == "POST":
         try:
             match.level_required = request.form["level_required"]
-            match.pitch_name = request.form["pitch_name"]
             match.pitch_address = request.form["pitch_address"]
             match.date_time = datetime.strptime(
                 request.form["date_time"], "%Y-%m-%dT%H:%M"
