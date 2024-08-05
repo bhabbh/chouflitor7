@@ -48,14 +48,7 @@ Before you begin, ensure you have met the following requirements:
 
 ## Configuration
 
-1. Create a `.env` file in the project root directory and add the following:
-   ```
-   SECRET_KEY=your_secret_key_here
-   GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
-   ```
-   Replace `your_secret_key_here` with a secure random string and `your_google_maps_api_key_here` with your Google Maps API key.
-
-2. In `match_details.html`, replace `YOUR_API_KEY` in the Google Maps script tag with `{{ google_maps_api_key }}`.
+1. Create a `.env` file in the project root directory
 
 ## Database Setup
 
