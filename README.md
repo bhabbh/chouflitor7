@@ -55,26 +55,14 @@ Before you begin, ensure you have met the following requirements:
 The database will be automatically created when you run the application for the first time. However, if you need to reset the database, you can use the following steps:
 
 1. Ensure you're in the project directory with your virtual environment activated.
-2. Run the Python interpreter:
+2. Run :
    ```
-   python
+   python run.py
    ```
-3. In the Python shell, run:
-   ```python
-   from app import db
-   db.drop_all()
-   db.create_all()
-   exit()
    ```
 
 ## Running the Application
 
-1. Ensure you're in the project directory with your virtual environment activated.
-
-2. Run the application:
-   ```
-   python run.py
-   ```
 
 3. Open a web browser and navigate to `http://127.0.0.1:5000/`
 
