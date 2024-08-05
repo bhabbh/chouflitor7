@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Chouflitor7 - Create Match{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Create a New Match</h1>
+
+    <form method="POST" action="{{ url_for('create_match') }}">
+        <div class="form-group">
+            <label for="pitch_name">Titre:</label>
+            <input type="text" id="pitch_name" name="pitch_name" required>
+        </div>
+        <div class="form-group" id="locationField">
+            <label for="autocomplete">Nom du terrain:</label>
+            <input type="text" id="autocomplete" name="pitch_address" required>
+        </div>
+        <div class="form-group">
+            <label for="date_time">Date et Heure:</label>
+            <input type="datetime-local" id="date_time" name="date_time" required>
+        </div>
+        <div class="form-group">
+            <label for="players_present">Nombre de joueurs déja présents:</label>
+            <input type="number" id="players_present" name="players_present" min="1" max="3" required>
+        </div>
+        <div class="form-group">
+            <label for="level_present">Niveau des joueurs présents:</label>
+            <select id="level_present" name="level_present" required>
+                <option value="">Choisir niveau</option>
+                <option value="Beginner">Débutant</option>
+                <option value="Intermediate">Intermédiaire</option>
+                <option value="Advanced">Confirmé</option>
+                <option value="Expert">Expert</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="level_required">Niveau requis:</label>
+            <select id="level_required" name="level_required" required>
+                <option value="">Choisir niveau</option>
+                <option value="Beginner">Débutant</option>
+                <option value="Intermediate">Intermédiaire</option>
+                <option value="Advanced">Confirmé</option>
+                <option value="Expert">Expert</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="rental_price">Prix de la location par joueur (TND):</label>
+            <input type="number" id="rental_price" name="rental_price" step="0.01" min="0" required>
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4" placeholder="Ajouter n'importe quelle information utile..."></textarea>
+        </div>
+        <button type="submit">Create Match</button>
+    </form>
+
+    <div id="map" style="height: 300px; width: 100%; margin-top: 20px;"></div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var dateTimeInput = document.getElementById('date_time');
+        dateTimeInput.addEventListener('click', function() {
+            this.showPicker();
+        });
+    });
+</script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places"></script>
+<script>
+
+let map;
+let marker;
+let geocoder;
+
+function initAutocomplete() {
+    var tunis = {lat: 36.8065, lng: 10.1815};
+    
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: tunis,
+        zoom: 12
+    });
+
+    geocoder = new google.maps.Geocoder();
+    
+    marker = new google.maps.Marker({
+        map: map,
+        anchorPoint: new google.maps.Point(0, -29)
+    });
+
+    var input = document.getElementById('autocomplete');
+    var options = {
+        types: ['establishment'],
+        componentRestrictions: {country: 'tn'},
+        bounds: new google.maps.LatLngBounds(
+            new google.maps.LatLng(36.7, 10.1),
+            new google.maps.LatLng(36.9, 10.3)
+        ),
+        strictBounds: false
+    };
+    
+    var autocomplete = new google.maps.places.Autocomplete(input, options);
+    
+    autocomplete.addListener('place_changed', function() {
+        updateMapWithPlace(autocomplete.getPlace());
+    });
+
+    // Listen for user input on the address field
+    input.addEventListener('input', function() {
+        delayedGeocodeAddress(input.value);
+    });
+}
+
+function updateMapWithPlace(place) {
+    marker.setVisible(false);
+    
+    if (!place.geometry) {
+        window.alert("No details available for input: '" + place.name + "'");
+        return;
+    }
+    
+    if (place.geometry.viewport) {
+        map.fitBounds(place.geometry.viewport);
+    } else {
+        map.setCenter(place.geometry.location);
+        map.setZoom(17);
+    }
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+    
+    document.getElementById('pitch_name').value = place.name;
+}
+
+let geocodeTimer;
+function delayedGeocodeAddress(address) {
+    clearTimeout(geocodeTimer);
+    geocodeTimer = setTimeout(function() {
+        geocodeAddress(address);
+    }, 1000); // Wait for 1 second after the user stops typing
+}
+
+function geocodeAddress(address) {
+    geocoder.geocode({'address': address}, function(results, status) {
+        if (status === 'OK') {
+            updateMapWithPlace(results[0]);
+        }
+    });
+}
+
+google.maps.event.addDomListener(window, 'load', initAutocomplete);
+</script>
+{% endblock %}

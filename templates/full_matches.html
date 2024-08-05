@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block title %}Chouflitor7 - Full Matches{% endblock %}
+
+{% block content %}
+<h1>Full Matches</h1>
+
+{% if matches %}
+    <ul class="match-list">
+    {% for match in matches %}
+        <li class="match-item">
+            <h2>{{ match.pitch_name }}</h2>
+            <p>Date: {{ match.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p>Players: 4 / 4</p>
+            <p>Level: {{ match.level_present }}</p>
+            <p>Price: ${{ match.rental_price }} per player</p>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No full matches at the moment.</p>
+{% endif %}
+{% endblock %}

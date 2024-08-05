@@ -1,0 +1,11 @@
+# Ignore Mac system files
+.DS_Store
+
+# Ignore virtual environment
+env/
+
+# Ignore Python compiled files
+__pycache__/
+
+# Ignore specific instance folder
+instance/

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block title %}Chouflitor7 - Available Matches{% endblock %}
+
+{% block content %}
+<h1>Available Matches</h1>
+
+{% if matches %}
+    <ul class="match-list">
+    {% for match in matches %}
+        <li class="match-item">
+            <h2>{{ match.pitch_name }}</h2>
+            <p><strong>Addresse:</strong> {{ match.pitch_address }}</p>
+            <p><strong>Date & Heure:</strong> {{ match.date_time.strftime('%Y-%m-%d %H:%M') }}</p>
+            <p><strong>Joueurs:</strong> {{ match.players_present }} / 4</p>
+            <p><strong>Niveau des joueurs:</strong> {{ match.level_present }}</p>
+            <p><strong>Niveau requis:</strong> {{ match.level_required }}</p>
+            <p><strong>Prix par joueur:</strong> ${{ match.rental_price }}</p>
+            <p><strong>Description:</strong> {{ match.description }}</p>
+            <a href="{{ url_for('join_match', match_id=match.id) }}" class="btn">Join Match</a>
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No available matches at the moment.</p>
+{% endif %}
+
+<a href="{{ url_for('create_match') }}" class="btn">Create New Match</a>
+{% endblock %}
