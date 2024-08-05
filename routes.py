@@ -1,11 +1,9 @@
-import os
 import requests
 
 from flask import render_template, request, redirect, url_for, flash, abort
 from app import app, db
 from models import Match, User
 from datetime import datetime
-from sqlalchemy import func
 from geoalchemy2.functions import ST_DWithin
 from geoalchemy2.elements import WKTElement
 
